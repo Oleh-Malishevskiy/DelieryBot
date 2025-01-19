@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Замовлення доставки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        input, textarea, button {
+            width: 80%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Оформити замовлення</h1>
+    <form id="orderForm">
+        <input type="text" id="name" placeholder="Ваше ім'я" required><br>
+        <input type="tel" id="phone" placeholder="Номер телефону" required><br>
+        <input type="text" id="address" placeholder="Адреса доставки" required><br>
+        <textarea id="comment" placeholder="Коментар до замовлення"></textarea><br>
+        <button type="button" id="sendOrder">Відправити</button>
+    </form>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+
+        document.getElementById("sendOrder").addEventListener("click", () => {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+            const comment = document.getElementById("comment").value;
+
+            if (name && phone && address) {
+                const orderData = {
+                    name,
+                    phone,
+                    address,
+                    comment
+                };
+                tg.sendData(JSON.stringify(orderData)); // Надсилаємо дані в бот
+            } else {
+                alert("Будь ласка, заповніть усі обов'язкові поля!");
+            }
+        });
+
+        tg.expand(); // Розширюємо вікно на весь екран
+    </script>
+</body>
+</html>
